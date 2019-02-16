@@ -40,6 +40,8 @@ namespace ExampleService
                 .AddCommandHandlers(typeof(ExampleCommandHandler))
                 .UseConsoleLog()
                 .UseFilesEventStore(FilesEventStoreConfiguration.Create("./evt-store"));
+                
+
 
             containerBuilder.Populate(services);
 
