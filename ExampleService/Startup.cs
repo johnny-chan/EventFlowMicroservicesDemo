@@ -36,11 +36,14 @@ namespace ExampleService
                 .UseAutofacContainerBuilder(containerBuilder)
                 .AddAspNetCoreMetadataProviders()
                 .AddEvents(typeof(ExampleEvent))
+                .AddEvents(typeof(ExampleMultiplerEvent))
                 .AddCommands(typeof(ExampleCommand))
                 .AddCommandHandlers(typeof(ExampleCommandHandler))
                 .UseConsoleLog()
-                .UseFilesEventStore(FilesEventStoreConfiguration.Create("./evt-store"));
-                
+                .UseFilesEventStore(FilesEventStoreConfiguration.Create("./evt-store"))
+                .UseInMemoryReadStoreFor<ExampleReadModel>()
+                .UseInMemoryReadStoreFor<ExampleDuplicateReadModel>();
+
 
 
             containerBuilder.Populate(services);

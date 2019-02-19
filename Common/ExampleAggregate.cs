@@ -3,7 +3,7 @@ using EventFlow.Aggregates.ExecutionResults;
 
 namespace Common
 {
-    public class ExampleAggregate : AggregateRoot<ExampleAggregate, ExampleId>, IEmit<ExampleEvent>
+    public class ExampleAggregate : AggregateRoot<ExampleAggregate, ExampleId>, IEmit<ExampleEvent>, IEmit<ExampleMultiplerEvent>
     {
        
         private int? _magicNumber;
@@ -25,6 +25,11 @@ namespace Common
         // provides several different methods for doing this, e.g. state objects,
         // the Apply method is merely the simplest
         public void Apply(ExampleEvent aggregateEvent)
+        {
+            _magicNumber = aggregateEvent.MagicNumber;
+        }
+
+        public void Apply(ExampleMultiplerEvent aggregateEvent)
         {
             _magicNumber = aggregateEvent.MagicNumber;
         }
