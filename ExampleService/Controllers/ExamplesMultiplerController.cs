@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Common;
-using EventFlow;
 using EventFlow.Aggregates;
 using EventFlow.Configuration;
 using EventFlow.EventStores;
@@ -19,7 +16,6 @@ namespace ExampleService.Controllers
     [ApiController]
     public class ExamplesMultiplerController : ControllerBase
     {
-        private readonly IResolver _resolver;
         private readonly IDomainEventPublisher _domainEventPublisher;
         private readonly IDomainEventFactory _domainEventFactory;
         private readonly IQueryProcessor _queryProcessor;

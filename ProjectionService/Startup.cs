@@ -7,6 +7,8 @@ using EventFlow.AspNetCore.Extensions;
 using EventFlow.Autofac.Extensions;
 using EventFlow.EventStores.Files;
 using EventFlow.Extensions;
+using EventFlow.MsSql;
+using EventFlow.MsSql.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -36,10 +38,10 @@ namespace ProjectionService
                 .AddAspNetCoreMetadataProviders()
                 .AddEvents(typeof(ExampleEvent))
                 .UseConsoleLog()
-                .UseFilesEventStore(FilesEventStoreConfiguration.Create("./evt-store"))
-                .UseInMemoryReadStoreFor<ExampleReadModel>();
-
-
+                .UseMssqlEventStore()
+                .ConfigureMsSql(MsSqlConfiguration.New.SetConnectionString("Data Source=JC_MSI;Initial Catalog=EventFlowDemo;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True"))
+                .UseMssqlReadModel<ExampleReadModel>()
+                .UseMssqlReadModel<ExampleDuplicateReadModel>();
 
             containerBuilder.Populate(services);
 

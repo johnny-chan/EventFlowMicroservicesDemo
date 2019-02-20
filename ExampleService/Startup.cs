@@ -6,8 +6,9 @@ using EventFlow;
 using EventFlow.AspNetCore.Extensions;
 using EventFlow.AspNetCore.Middlewares;
 using EventFlow.Autofac.Extensions;
-using EventFlow.EventStores.Files;
 using EventFlow.Extensions;
+using EventFlow.MsSql;
+using EventFlow.MsSql.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -40,9 +41,10 @@ namespace ExampleService
                 .AddCommands(typeof(ExampleCommand))
                 .AddCommandHandlers(typeof(ExampleCommandHandler))
                 .UseConsoleLog()
-                .UseFilesEventStore(FilesEventStoreConfiguration.Create("./evt-store"))
-                .UseInMemoryReadStoreFor<ExampleReadModel>()
-                .UseInMemoryReadStoreFor<ExampleDuplicateReadModel>();
+                .UseMssqlEventStore()
+                .ConfigureMsSql(MsSqlConfiguration.New.SetConnectionString("Data Source=JC_MSI;Initial Catalog=EventFlowDemo;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True"))
+                .UseMssqlReadModel<ExampleReadModel>()
+                .UseMssqlReadModel<ExampleDuplicateReadModel>();
 
 
 

@@ -23,23 +23,22 @@ namespace ProjectionService.Controllers
             _readModelPopulator = resolver.Resolve<IReadModelPopulator>();
         }
 
+        /// <summary>
+        /// Rebuilds all data models
+        /// </summary>
+        /// <remarks>The request will be of /api/DataModels/Rebuild</remarks>
+        /// <returns></returns>
         [HttpPost]
-        [Route("api/[controller]/rebuild")]
+        [Route("[action]")]
+        // [Route("rebuild")]
         [ProducesResponseType(200)]
         public async Task<ActionResult> Rebuild()
         {
             await _readModelPopulator.PopulateAsync<ExampleReadModel>(CancellationToken.None);
+            await _readModelPopulator.PopulateAsync<ExampleDuplicateReadModel>(CancellationToken.None);
 
             return Accepted("Read models are replayed");
         }
-
-        //[HttpPost]
-        //[Route("api/[controller]/update")]
-        //[ProducesResponseType(200)]
-        //public async Task<ActionResult> Update()
-        //{
-            
-        //}
 
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
