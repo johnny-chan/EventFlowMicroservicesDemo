@@ -2,6 +2,7 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Common;
+using Common.Settings;
 using EventFlow;
 using EventFlow.AspNetCore.Extensions;
 using EventFlow.AspNetCore.Middlewares;
@@ -33,6 +34,8 @@ namespace ExampleService
 
             var containerBuilder = new ContainerBuilder();
 
+            var connectionString = Configuration["EventStoreConnectionString"];
+
             var container = EventFlowOptions.New
                 .UseAutofacContainerBuilder(containerBuilder)
                 .AddAspNetCoreMetadataProviders()
@@ -42,7 +45,7 @@ namespace ExampleService
                 .AddCommandHandlers(typeof(ExampleCommandHandler))
                 .UseConsoleLog()
                 .UseMssqlEventStore()
-                .ConfigureMsSql(MsSqlConfiguration.New.SetConnectionString("Data Source=JC_MSI;Initial Catalog=EventFlowDemo;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True"))
+                .ConfigureMsSql(MsSqlConfiguration.New.SetConnectionString(connectionString))
                 .UseMssqlReadModel<ExampleReadModel>()
                 .UseMssqlReadModel<ExampleDuplicateReadModel>();
 

@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
+    <UserSecretsId>babaea2e-4e26-4c24-8243-7f166cdf3230</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,6 +21,7 @@
     <PackageReference Include="EventFlow.MsSql" Version="0.68.3728" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
   </ItemGroup>
 
