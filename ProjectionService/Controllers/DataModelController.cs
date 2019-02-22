@@ -35,18 +35,9 @@ namespace ProjectionService.Controllers
         public async Task<ActionResult> Rebuild()
         {
             await _readModelPopulator.PopulateAsync<ExampleReadModel>(CancellationToken.None);
-            await _readModelPopulator.PopulateAsync<ExampleDuplicateReadModel>(CancellationToken.None);
+            await _readModelPopulator.PopulateAsync<AnotherExampleReadModel>(CancellationToken.None);
 
-            return Accepted("Read models are replayed");
-        }
-
-        [HttpGet("{id}")]
-        [ProducesResponseType(200)]
-        public async Task<ActionResult<ExampleReadModel>> GetExample(string id)
-        {
-            var readModel = await _queryProcessor.ProcessAsync(new ReadModelByIdQuery<ExampleReadModel>(id), CancellationToken.None);
-
-            return Ok(readModel);
+            return Accepted("All Read models are replayed");
         }
 
         [HttpDelete]
@@ -54,8 +45,9 @@ namespace ProjectionService.Controllers
         public async Task<ActionResult> Delete()
         {
             await _readModelPopulator.PurgeAsync<ExampleReadModel>(CancellationToken.None);
+            await _readModelPopulator.PurgeAsync<AnotherExampleReadModel>(CancellationToken.None);
 
-            return Ok("Read models deleted");
+            return Ok("All Read models deleted");
         }
     }
 }

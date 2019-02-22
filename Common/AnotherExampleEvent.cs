@@ -5,9 +5,9 @@ namespace Common
     /// <summary>
     /// This event is for performing further calculation to the magic number
     /// </summary>
-    public class ExampleMultiplerEvent : AggregateEvent<ExampleAggregate, ExampleId>
+    public class AnotherExampleEvent : AggregateEvent<ExampleAggregate, ExampleId>
     {
-        public ExampleMultiplerEvent(int magicNumber)
+        public AnotherExampleEvent(int magicNumber)
         {
             MagicNumber = magicNumber;
         }

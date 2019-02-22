@@ -6,7 +6,7 @@ using EventFlow.ReadStores;
 namespace Common
 {
     // [Table("ReadModel-ExampleReadModel")]
-    public class ExampleReadModel : IReadModel, IAmReadModelFor<ExampleAggregate, ExampleId, ExampleEvent>
+    public class ExampleReadModel : IReadModel, IAmReadModelFor<ExampleAggregate, ExampleId, ExampleEvent>, IAmReadModelFor<ExampleAggregate, ExampleId, AnotherExampleEvent>
     {
         [MsSqlReadModelIdentityColumn]
         public string AggregateId { get; set; }
@@ -19,6 +19,14 @@ namespace Common
         public void Apply(
             IReadModelContext context,
             IDomainEvent<ExampleAggregate, ExampleId, ExampleEvent> domainEvent)
+        {
+            AggregateId = domainEvent.AggregateIdentity.Value;
+            MagicNumber = domainEvent.AggregateEvent.MagicNumber;
+        }
+
+        public void Apply(
+            IReadModelContext context, 
+            IDomainEvent<ExampleAggregate, ExampleId, AnotherExampleEvent> domainEvent)
         {
             AggregateId = domainEvent.AggregateIdentity.Value;
             MagicNumber = domainEvent.AggregateEvent.MagicNumber;

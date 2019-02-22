@@ -39,11 +39,12 @@ namespace ProjectionService
                 .UseAutofacContainerBuilder(containerBuilder)
                 .AddAspNetCoreMetadataProviders()
                 .AddEvents(typeof(ExampleEvent))
+                .AddEvents(typeof(AnotherExampleEvent))
                 .UseConsoleLog()
                 .UseMssqlEventStore()
                 .ConfigureMsSql(MsSqlConfiguration.New.SetConnectionString(connectionString))
                 .UseMssqlReadModel<ExampleReadModel>()
-                .UseMssqlReadModel<ExampleDuplicateReadModel>();
+                .UseMssqlReadModel<AnotherExampleReadModel>();
 
             containerBuilder.Populate(services);
 

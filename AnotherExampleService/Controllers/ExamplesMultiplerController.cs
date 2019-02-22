@@ -33,9 +33,9 @@ namespace ExampleService.Controllers
         // GET api/examplesmultiplier/a6e02d4d-871e-4d18-be8a-b647706a2a11
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
-        public async Task<ActionResult<ExampleDuplicateReadModel>> GetExample(string id)
+        public async Task<ActionResult<AnotherExampleReadModel>> GetExample(string id)
         {
-            var readModel = await _queryProcessor.ProcessAsync(new ReadModelByIdQuery<ExampleDuplicateReadModel>(id), CancellationToken.None);
+            var readModel = await _queryProcessor.ProcessAsync(new ReadModelByIdQuery<AnotherExampleReadModel>(id), CancellationToken.None);
 
             return Ok(readModel);
         }
@@ -47,13 +47,13 @@ namespace ExampleService.Controllers
         {
             var exampleId = ExampleId.New;
             var multiplierEvent =
-                _domainEventFactory.Create(new ExampleMultiplerEvent(value), new Metadata
+                _domainEventFactory.Create(new AnotherExampleEvent(value), new Metadata
                 {
                     AggregateId = exampleId.Value,
                     Timestamp = DateTime.UtcNow
                 }, exampleId.Value, 1);
 
-
+            // The publishAsync api call does not persist the event to the EventFlow table.
             await _domainEventPublisher.PublishAsync(new List<IDomainEvent> { multiplierEvent }, CancellationToken.None);
 
             return CreatedAtAction(nameof(GetExample), new { id = exampleId.Value }, multiplierEvent);

@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Common;
-using Common.Settings;
 using EventFlow;
 using EventFlow.AspNetCore.Extensions;
 using EventFlow.AspNetCore.Middlewares;
@@ -12,11 +14,14 @@ using EventFlow.MsSql;
 using EventFlow.MsSql.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
-namespace ExampleService
+namespace AnotherExampleService
 {
     public class Startup
     {
@@ -39,13 +44,13 @@ namespace ExampleService
             var container = EventFlowOptions.New
                 .UseAutofacContainerBuilder(containerBuilder)
                 .AddAspNetCoreMetadataProviders()
-                .AddEvents(typeof(ExampleEvent))
-                .AddCommands(typeof(ExampleCommand))
-                .AddCommandHandlers(typeof(ExampleCommandHandler))
+                .AddEvents(typeof(AnotherExampleEvent))
                 .UseConsoleLog()
                 .UseMssqlEventStore()
                 .ConfigureMsSql(MsSqlConfiguration.New.SetConnectionString(connectionString))
-                .UseMssqlReadModel<ExampleReadModel>();
+                .UseMssqlReadModel<AnotherExampleReadModel>();
+
+
 
             containerBuilder.Populate(services);
 
